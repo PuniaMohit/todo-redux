@@ -1,7 +1,7 @@
 import "./header.css";
 import * as Icon from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
-import { showPopUp } from '../../actions/index'
+import { showPopUp } from '../../redux/popUp/actions/showPopUp'
 
 const Header = (props) => {
   const dispatch = useDispatch();

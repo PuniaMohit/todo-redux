@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { hidePopUp, hidePopUpByButton } from '../../actions/index'
+import { hidePopUp, hidePopUpByButton } from '../../redux/popUp/actions/showPopUp'
 import "./addTodoPopUp.css";
 
 const AddTodoPopUp = (props) => {

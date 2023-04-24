@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./components/Header/header";
 import AddTodoPopUp from "./components/AddTodoPopUp/addTodoPopUp";
 import TodoList from "./components/TodoList/todoList";
-import{useSelector} from "react-redux"
+import { useSelector } from "react-redux";
 function App() {
   const [showPop, setShowPop] = useState(false);
   const [todoList, setTodoList] = useState([
@@ -26,7 +26,7 @@ function App() {
     },
   ]);
 
-  const show=useSelector(state=>state.show)
+  const show = useSelector((state) => state.show);
   useEffect(() => {
     // ..logic for red color of circle when task time and date crosses selected time and date....just have to use local storage here and we are done.
     // const todoColorCheckedList= todoList.map((element, index) => {
