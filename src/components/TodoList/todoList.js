@@ -1,5 +1,6 @@
 import "./todoList.css";
 import * as Icon from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
 
 const TodoList = (props) => {
   const showTaskCompleted = (complete, index) => (event) => {
@@ -29,10 +30,12 @@ const TodoList = (props) => {
     });
     props.setTodoList(newArr);
   };
+  const list = useSelector((state) => state.list);
+
 
   return (
     <div className="todolist-main-container">
-      {props.todoList.map((element, index) => {
+      {list.map((element, index) => {
         return (
           <div className="list" key={index}>
             <label className="input-box">
