@@ -1,9 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { hidePopUp, hidePopUpByButton } from '../../redux/popUp/actions/showPopUp'
+import { useDispatch } from "react-redux";
+import {
+  hidePopUp,
+  hidePopUpByCancelButton,
+  hidePopUpByDoneButton,
+  hidePopUpByClickGrayBackground,
+} from "../../redux/popUp/actions/showPopUp";
+import { addTask } from "../../redux/todoList/actions/addList";
 import "./addTodoPopUp.css";
 
-const AddTodoPopUp = (props) => {
+const AddTodoPopUp = () => {
   const dispatch = useDispatch();
   const popupRef = useRef(null);
   const [input, setInput] = useState("");
@@ -49,7 +55,7 @@ const AddTodoPopUp = (props) => {
       setDotColor("green");
     }
   };
-
+  const addTodoList = { name: input, time: dateAndTime, color: dotColor };
   const updateTodo = () => {
     if (input === "") {
       setEmptyInput(true);
@@ -57,11 +63,8 @@ const AddTodoPopUp = (props) => {
       setErrorMessage("Date");
     } else {
       setEmptyInput(false);
-      props.setShowPop(false);
-      props.setTodoList([
-        ...props.todoList,
-        { name: input, time: dateAndTime, color: dotColor },
-      ]);
+      dispatch(hidePopUpByDoneButton());
+      dispatch(addTask(addTodoList));
     }
   };
   useEffect(() => {
@@ -69,12 +72,15 @@ const AddTodoPopUp = (props) => {
   }, []);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
-      props.setShowPop(false);
+      dispatch(hidePopUpByClickGrayBackground());
     }
   };
   return (
     <div>
-      <div className="faded-background" onClick={() => dispatch(hidePopUp())}></div>
+      <div
+        className="faded-background"
+        onClick={() => dispatch(hidePopUp())}
+      ></div>
       <div className="input-container" ref={popupRef}>
         <div className="input-inside-container">
           <div className="popup-header">Add Todo</div>
@@ -97,7 +103,9 @@ const AddTodoPopUp = (props) => {
             onChange={updateTime}
           ></input>
           <div className="buttons">
-            <button onClick={() => dispatch(hidePopUpByButton())}>Cancel</button>
+            <button onClick={() => dispatch(hidePopUpByCancelButton())}>
+              Cancel
+            </button>
             {errorMessage ? <></> : <button onClick={updateTodo}>Done</button>}
           </div>
         </div>

@@ -1,37 +1,29 @@
 import "./todoList.css";
 import * as Icon from "react-bootstrap-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { listDotColorChange } from "../../redux/todoList/actions/colorUpdateList";
 
-const TodoList = (props) => {
+const TodoList = () => {
+  const dispatch = useDispatch();
+  const list = useSelector((state) => state.list.list);
   const showTaskCompleted = (complete, index) => (event) => {
     const { checked } = event.target;
-    const newArr = props.todoList.map((item, i) => {
-      let day = item.time.split(" ")[0];
-      const selectedDate = new Date(day).getDate();
-      const realDate = new Date().getDate();
+    const updatedList = list.map((item, i) => {
       if (index === i) {
-        if (realDate === selectedDate) {
-          if (item.color === "green" && !checked) {
-            return { ...item, color: "yellow" };
-          } else {
-            return { ...item, color: "green" };
-          }
-        } else {
-          if (item.color === 'yellow') {
-            return { ...item, color: 'green' }
-          }
-          else {
-            return item
-          }
-        }
+        const day = item.time.split(" ")[0];
+        const color =
+          new Date().getDate() === new Date(day).getDate()
+            ? item.color === "green" && !checked
+              ? "yellow"
+              : "green"
+            : item.color;
+        return { ...item, color };
       } else {
         return item;
       }
     });
-    props.setTodoList(newArr);
+    dispatch(listDotColorChange(updatedList));
   };
-  const list = useSelector((state) => state.list);
-
 
   return (
     <div className="todolist-main-container">
@@ -59,17 +51,17 @@ const TodoList = (props) => {
                   <></>
                 )}
               </div>
-              {element.color === "green" ? (
-                <div className="dotOuterBox">
-                  <div className="green"></div>
-                </div>
-              ) : (
-                <div className="dotOuterBox">
-                  <div
-                    className={element.color === "yellow" ? "yellow" : "red"}
-                  ></div>
-                </div>
-              )}
+              <div className="dotOuterBox">
+                <div
+                  className={
+                    element.color === "green"
+                      ? "green"
+                      : element.color === "yellow"
+                      ? "yellow"
+                      : "red"
+                  }
+                ></div>
+              </div>
             </label>
             <div className="border"></div>
           </div>

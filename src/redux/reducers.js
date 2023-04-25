@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import showReducer from "./popUp/reducers/showPopUp";
-import listReducer from "./todoList/reducers/listReducer"
+import listReducer from "./todoList/reducers/listReducer";
 
 const reducers = combineReducers({
   show: showReducer,
-  list:listReducer
+  list: listReducer,
 });
 
 export default reducers;

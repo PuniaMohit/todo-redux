@@ -7,6 +7,12 @@ export const showPopUp = () => ({
 export const hidePopUp = () => ({
   type: HIDE_POP_UP,
 });
-export const hidePopUpByButton = () => ({
+export const hidePopUpByCancelButton = () => ({
+  type: HIDE_POP_UP,
+});
+export const hidePopUpByDoneButton = () => ({
+  type: HIDE_POP_UP,
+});
+export const hidePopUpByClickGrayBackground = () => ({
   type: HIDE_POP_UP,
 });
