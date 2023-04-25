@@ -1,15 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  hidePopUp,
-  hidePopUpByCancelButton,
-  hidePopUpByDoneButton,
-  hidePopUpByClickGrayBackground,
-} from "../../redux/popUp/actions/showPopUp";
 import { addTask } from "../../redux/todoList/actions/addList";
 import "./addTodoPopUp.css";
 
-const AddTodoPopUp = () => {
+const AddTodoPopUp = (props) => {
+  const { setShowPopUp } = props;
   const dispatch = useDispatch();
   const popupRef = useRef(null);
   const [input, setInput] = useState("");
@@ -17,43 +12,28 @@ const AddTodoPopUp = () => {
   const [dotColor, setDotColor] = useState("");
   const [emptyInput, setEmptyInput] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const updateTime = (event) => {
-    const arrDateAndTime = event.target.value.split("T");
-    let day = event.target.value.split("T")[0];
-    const hours = arrDateAndTime[1].split(":")[0];
-    const minutes = arrDateAndTime[1].split(":")[1];
-    const suffix = hours >= 12 ? "pm" : "am";
-    const showHours = hours > 12 ? hours - 12 : hours;
-    const time = showHours + ":" + minutes + " " + suffix;
-    const dateAndTim = day + " " + time;
-    const selectedDate = new Date(day).getDate();
-    const realDate = new Date().getDate();
-    const realHours = new Date().getHours();
-    const realMinutes = new Date().getMinutes();
-    if (realDate > selectedDate) {
-      setErrorMessage("Date");
-    } else if (realDate == selectedDate) {
-      if (hours < realHours) {
-        setErrorMessage("Hours");
-      } else if (hours == realHours) {
-        if (minutes < realMinutes) {
-          setErrorMessage("Minutes");
-        } else {
-          setErrorMessage("");
-        }
-      } else {
-        setErrorMessage("");
-      }
-    } else {
-      setErrorMessage("");
-    }
-    setDateAndTime(dateAndTim);
 
-    if (selectedDate == realDate) {
-      setDotColor("yellow");
-    } else if (realDate < selectedDate) {
-      setDotColor("green");
+  const updateTime = (event) => {
+    const dateObj = new Date(event.target.value);
+    const suffix = dateObj.getHours() >= 12 ? "pm" : "am";
+    const showHours = dateObj.getHours() % 12 || 12;
+    let errorMessage = "";
+    if (new Date().getDate() > dateObj.getDate()) errorMessage = "Date";
+    else if (new Date().getDate() === dateObj.getDate()) {
+      if (dateObj.getHours() < new Date().getHours()) errorMessage = "Hours";
+      else if (dateObj.getHours() === new Date().getHours()) {
+        if (dateObj.getMinutes() < new Date().getMinutes())
+          errorMessage = "Minutes";
+      }
     }
+    const date = dateObj.getDate().toString().padStart(2, "0");
+    const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+    const year = dateObj.getFullYear().toString();
+    setDotColor(date === new Date().getDate().toString() ? "yellow" : "green");
+    setDateAndTime(
+      `${year}-${month}-${date} ${showHours}:${dateObj.getMinutes()} ${suffix}`
+    );
+    setErrorMessage(errorMessage);
   };
   const addTodoList = { name: input, time: dateAndTime, color: dotColor };
   const updateTodo = () => {
@@ -63,7 +43,7 @@ const AddTodoPopUp = () => {
       setErrorMessage("Date");
     } else {
       setEmptyInput(false);
-      dispatch(hidePopUpByDoneButton());
+      setShowPopUp(false);
       dispatch(addTask(addTodoList));
     }
   };
@@ -72,15 +52,12 @@ const AddTodoPopUp = () => {
   }, []);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
-      dispatch(hidePopUpByClickGrayBackground());
+      setShowPopUp(false);
     }
   };
   return (
     <div>
-      <div
-        className="faded-background"
-        onClick={() => dispatch(hidePopUp())}
-      ></div>
+      <div className="faded-background"></div>
       <div className="input-container" ref={popupRef}>
         <div className="input-inside-container">
           <div className="popup-header">Add Todo</div>
@@ -103,9 +80,7 @@ const AddTodoPopUp = () => {
             onChange={updateTime}
           ></input>
           <div className="buttons">
-            <button onClick={() => dispatch(hidePopUpByCancelButton())}>
-              Cancel
-            </button>
+            <button onClick={() => setShowPopUp(false)}>Cancel</button>
             {errorMessage ? <></> : <button onClick={updateTodo}>Done</button>}
           </div>
         </div>

@@ -76,6 +76,7 @@ button {
   border: none;
   background: none;
   font-size: 1.1rem;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {

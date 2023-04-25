@@ -1,14 +1,14 @@
 import Header from "./components/Header/header";
 import AddTodoPopUp from "./components/AddTodoPopUp/addTodoPopUp";
 import TodoList from "./components/TodoList/todoList";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 function App() {
-  const showPopUp = useSelector((state) => state.show.show);
+  const [showPopUp, setShowPopUp] = useState(false);
   return (
     <div className="container">
-      <Header />
+      <Header setShowPopUp={setShowPopUp} />
       <TodoList />
-      {showPopUp ? <AddTodoPopUp /> : <div></div>}
+      {showPopUp && <AddTodoPopUp setShowPopUp={setShowPopUp} />}
     </div>
   );
 }
