@@ -30,6 +30,7 @@
     width: 25px;
     height: 25px;
     color: blue;
+    cursor: pointer;
 }
 
 @media(max-width:376px) {

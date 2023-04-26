@@ -4,20 +4,33 @@ const initialState = {
   list: [
     {
       name: "Start making a presentation",
-      time: "2023-04-25 7:08 pm",
+      time: "2023-04-26 7:08 pm",
       color: "yellow",
+      checked: false,
     },
-    { name: "Pay for rent", time: "2023-04-25 7:14 pm", color: "yellow" },
-    { name: "Buy a milk", time: "2023-04-30 8:20 pm", color: "green" },
+    {
+      name: "Pay for rent",
+      time: "2023-04-26 7:14 pm",
+      color: "yellow",
+      checked: false,
+    },
+    {
+      name: "Buy a milk",
+      time: "2023-04-30 8:20 pm",
+      color: "green",
+      checked: false,
+    },
     {
       name: "Don't forget to pick up Mickeal from school",
-      time: "2023-04-25 8:20 pm",
+      time: "2023-04-26 8:20 pm",
       color: "yellow",
+      checked: false,
     },
     {
       name: "Buy a chocolate for Charlotte",
-      time: "2023-04-25 8:20 pm",
+      time: "2023-04-26 8:20 pm",
       color: "yellow",
+      checked: false,
     },
   ],
 };
@@ -25,7 +38,17 @@ const initialState = {
 const listReducer = (state = initialState, action) => {
   switch (action.type) {
     case LIST_DOT_COLOR_CHANGE:
-      return { ...state, list: action.payload };
+      const updatedList = state.list.map((task) => {
+        if (task.name === action.payload.name) {
+          return action.payload;
+        } else {
+          return { ...task };
+        }
+      });
+      return {
+        ...state,
+        list: updatedList,
+      };
     case ADD_TASK:
       return {
         ...state,

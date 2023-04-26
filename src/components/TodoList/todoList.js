@@ -6,28 +6,19 @@ import { listDotColorChange } from "../../redux/todoList/actions/colorUpdateList
 const TodoList = () => {
   const dispatch = useDispatch();
   const list = useSelector((state) => state.list.list);
-  const showTaskCompleted = (complete, index) => (event) => {
-    const { checked } = event.target;
-    const updatedList = list.map((item, i) => {
-      if (index === i) {
-        const day = item.time.split(" ")[0];
-        const color =
-          new Date().getDate() === new Date(day).getDate()
-            ? item.color === "green" && !checked
-              ? "yellow"
-              : "green"
-            : item.color;
-        return { ...item, color };
-      } else {
-        return item;
-      }
-    });
-    dispatch(listDotColorChange(updatedList));
-  };
-
   return (
     <div className="todolist-main-container">
       {list.map((element, index) => {
+        let color;
+        if (new Date().getDate() === new Date(element.time).getDate()) {
+          color = element.checked
+            ? element.color === "green"
+              ? "yellow"
+              : "green"
+            : "yellow";
+        } else {
+          color = "green";
+        }
         return (
           <div className="list" key={index}>
             <label className="input-box">
@@ -35,8 +26,16 @@ const TodoList = () => {
                 className="checkbox"
                 type="checkbox"
                 name={index}
-                onClick={showTaskCompleted("complete", index)}
-                key={index}
+                onChange={(event) => {
+                  const { checked } = event.target;
+                  let newObjTask = {
+                    name: element.name,
+                    time: element.time,
+                    color: color,
+                    checked: checked,
+                  };
+                  dispatch(listDotColorChange(newObjTask));
+                }}
               />
               <div className="task-content">
                 <div className="checkbox-content">
@@ -52,15 +51,7 @@ const TodoList = () => {
                 )}
               </div>
               <div className="dotOuterBox">
-                <div
-                  className={
-                    element.color === "green"
-                      ? "green"
-                      : element.color === "yellow"
-                      ? "yellow"
-                      : "red"
-                  }
-                ></div>
+                <div className={color}></div>
               </div>
             </label>
             <div className="border"></div>

@@ -1,29 +1,35 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "../../redux/todoList/actions/addList";
+import { showEmptyInputError } from "../../redux/error/actions/inputError";
+import { dateErrorMessage } from "../../redux/error/actions/dateAndTimeError";
 import "./addTodoPopUp.css";
 
 const AddTodoPopUp = (props) => {
   const { setShowPopUp } = props;
+  const showInputError = useSelector((state) => state.inputError.inputError);
+  const errorDateAndTimeMessage = useSelector(
+    (state) => state.inputError.dateTimeError
+  );
   const dispatch = useDispatch();
   const popupRef = useRef(null);
   const [input, setInput] = useState("");
   const [dateAndTime, setDateAndTime] = useState("");
   const [dotColor, setDotColor] = useState("");
-  const [emptyInput, setEmptyInput] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const updateTime = (event) => {
     const dateObj = new Date(event.target.value);
     const suffix = dateObj.getHours() >= 12 ? "pm" : "am";
     const showHours = dateObj.getHours() % 12 || 12;
-    let errorMessage = "";
-    if (new Date().getDate() > dateObj.getDate()) errorMessage = "Date";
+    let errorDateAndTimeMessage = "";
+    if (new Date().getDate() > dateObj.getDate())
+      errorDateAndTimeMessage = "Date";
     else if (new Date().getDate() === dateObj.getDate()) {
-      if (dateObj.getHours() < new Date().getHours()) errorMessage = "Hours";
+      if (dateObj.getHours() < new Date().getHours())
+        errorDateAndTimeMessage = "Hours";
       else if (dateObj.getHours() === new Date().getHours()) {
         if (dateObj.getMinutes() < new Date().getMinutes())
-          errorMessage = "Minutes";
+          errorDateAndTimeMessage = "Minutes";
       }
     }
     const date = dateObj.getDate().toString().padStart(2, "0");
@@ -33,16 +39,20 @@ const AddTodoPopUp = (props) => {
     setDateAndTime(
       `${year}-${month}-${date} ${showHours}:${dateObj.getMinutes()} ${suffix}`
     );
-    setErrorMessage(errorMessage);
+    dispatch(dateErrorMessage(errorDateAndTimeMessage));
   };
-  const addTodoList = { name: input, time: dateAndTime, color: dotColor };
+  const addTodoList = {
+    name: input,
+    time: dateAndTime,
+    color: dotColor,
+    checked: false,
+  };
   const updateTodo = () => {
-    if (input === "") {
-      setEmptyInput(true);
+    if (!input) {
+      dispatch(showEmptyInputError());
     } else if (!dateAndTime) {
-      setErrorMessage("Date");
+      dispatch(dateErrorMessage("Date"));
     } else {
-      setEmptyInput(false);
       setShowPopUp(false);
       dispatch(addTask(addTodoList));
     }
@@ -53,6 +63,8 @@ const AddTodoPopUp = (props) => {
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       setShowPopUp(false);
+      dispatch(showEmptyInputError(false));
+      dispatch(dateErrorMessage());
     }
   };
   return (
@@ -62,15 +74,17 @@ const AddTodoPopUp = (props) => {
         <div className="input-inside-container">
           <div className="popup-header">Add Todo</div>
           <textarea
-            className={emptyInput ? "task-input-red" : "task-input"}
+            className={showInputError ? "task-input-red" : "task-input"}
             onChange={(event) => {
               setInput(event.target.value);
-              setEmptyInput(false);
+              dispatch(showEmptyInputError(false));
             }}
           />
-          {emptyInput ? <div className="error">Input is Empty</div> : <></>}
-          {errorMessage ? (
-            <div className="error">Your picked wrong {errorMessage}</div>
+          {showInputError ? <div className="error">Input is Empty</div> : <></>}
+          {errorDateAndTimeMessage ? (
+            <div className="error">
+              Your picked wrong {errorDateAndTimeMessage}
+            </div>
           ) : (
             <></>
           )}
@@ -80,8 +94,18 @@ const AddTodoPopUp = (props) => {
             onChange={updateTime}
           ></input>
           <div className="buttons">
-            <button onClick={() => setShowPopUp(false)}>Cancel</button>
-            {errorMessage ? <></> : <button onClick={updateTodo}>Done</button>}
+            <button
+              onClick={() => {
+                setShowPopUp(false);
+                dispatch(showEmptyInputError(false));
+                dispatch(dateErrorMessage());
+              }}
+            >
+              Cancel
+            </button>
+            {!errorDateAndTimeMessage && (
+              <button onClick={updateTodo}>Done</button>
+            )}
           </div>
         </div>
       </div>
