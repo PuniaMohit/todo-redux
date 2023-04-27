@@ -1,0 +1,170 @@
+.faded-background {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.input-container {
+  border: 2px solid #f3f5f8;
+  width: 27%;
+  position: absolute;
+  top: 22%;
+  left: 37%;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.input-inside-container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+@font-face {
+  font-family: "SFProText";
+  src: url(../../fonts/SF-Pro-Text-Bold.otf);
+}
+
+.popup-header {
+  font-family: "SFProText";
+  font-size: 18px;
+  padding-top: 4%;
+  padding-bottom: 2%;
+}
+
+.task-input {
+  height: 35vh;
+  width: 24vw;
+  border-color: #f3f5f8;
+  margin: 0 auto;
+  resize: none;
+}
+
+.task-input-red {
+  height: 35vh;
+  width: 24vw;
+  border-color: red;
+  resize: none;
+}
+
+.daytime-input {
+  width: 24vw;
+  margin-top: 3%;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3%;
+  margin-bottom: 1%;
+  font-family: "SFProText";
+  font-weight: 600;
+  font-size: 18px;
+}
+
+button {
+  font-weight: 500;
+  color: blue;
+  border: none;
+  background: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .input-container {
+    width: 50%;
+    left: 24%;
+  }
+
+  .task-input {
+    height: 40vh;
+    width: 44vw;
+    border-color: #f3f5f8;
+    margin: 0 auto;
+  }
+
+  .task-input-red {
+    height: 50vh;
+    width: 44vw;
+    border-color: red;
+  }
+
+  .daytime-input {
+    width: 44vw;
+    margin-top: 3%;
+  }
+}
+
+@media (max-width: 426px) {
+  .input-container {
+    border: 2px solid #f3f5f8;
+    width: 65vw;
+    left: 15%;
+    top: 16%;
+  }
+
+  .task-input {
+    height: 30vh;
+    width: 60vw;
+    border-color: #f3f5f8;
+  }
+
+  .task-input-red {
+    height: 30vh;
+    width: 60vw;
+    border-color: red;
+  }
+}
+
+@media (max-width: 376px) {
+  .input-container {
+    width: 87%;
+    top: 6.375rem;
+    left: 25px;
+  }
+
+  .popup-header {
+    margin-left: 12.88px;
+    margin-bottom: 4px;
+    margin-top: 15px;
+  }
+
+  .input-inside-container {
+    width: 100%;
+  }
+
+  .task-input {
+    height: 9.25rem;
+    width: 18.625rem;
+    border-color: #f3f5f8;
+    margin-left: 15px;
+    resize: none;
+  }
+
+  .task-input-red {
+    height: 9.25rem;
+    width: 18.625rem;
+    border-color: red;
+    margin-left: 15px;
+    resize: none;
+  }
+
+  .daytime-input {
+    width: 18.625rem;
+    margin-top: 3%;
+    margin-left: 15px;
+  }
+
+  .buttons {
+    margin: 15px 28.59px;
+  }
+}
