@@ -35,7 +35,7 @@
 
 @media(max-width:376px) {
     .header {
-        width: 339px;
+        width: 90%;
         margin: 0 auto;
     }
 }

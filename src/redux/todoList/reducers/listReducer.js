@@ -4,13 +4,13 @@ const initialState = {
   list: [
     {
       name: "Start making a presentation",
-      time: "2023-04-26 7:08 pm",
+      time: "2023-04-27 7:08 pm",
       color: "yellow",
       checked: false,
     },
     {
       name: "Pay for rent",
-      time: "2023-04-26 7:14 pm",
+      time: "2023-04-27 7:14 pm",
       color: "yellow",
       checked: false,
     },
@@ -22,13 +22,13 @@ const initialState = {
     },
     {
       name: "Don't forget to pick up Mickeal from school",
-      time: "2023-04-26 8:20 pm",
+      time: "2023-04-27 8:20 pm",
       color: "yellow",
       checked: false,
     },
     {
       name: "Buy a chocolate for Charlotte",
-      time: "2023-04-26 8:20 pm",
+      time: "2023-04-27 8:20 pm",
       color: "yellow",
       checked: false,
     },

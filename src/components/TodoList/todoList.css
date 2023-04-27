@@ -1,5 +1,5 @@
 .todolist-main-container {
-    margin-top: 38px;
+    margin-top:2.375rem;
 }
 
 .list {
@@ -17,8 +17,8 @@
 }
 
 .checkbox-content:before {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     border: 1.5px solid black;
     content: "";
     display: inline-block;
@@ -152,7 +152,7 @@ input[type="checkbox"]:checked + div > .checkbox-content:before {
     }
 
     .task-name {
-        width: 271px;
+        width: 16.93rem;
     }
 
     .dotOuterBox {

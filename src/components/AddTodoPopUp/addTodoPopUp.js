@@ -5,8 +5,7 @@ import { showEmptyInputError } from "../../redux/error/actions/inputError";
 import { dateErrorMessage } from "../../redux/error/actions/dateAndTimeError";
 import "./addTodoPopUp.css";
 
-const AddTodoPopUp = (props) => {
-  const { setShowPopUp } = props;
+const AddTodoPopUp = ({ setShowPopUp }) => {
   const showInputError = useSelector((state) => state.inputError.inputError);
   const errorDateAndTimeMessage = useSelector(
     (state) => state.inputError.dateTimeError
@@ -41,7 +40,7 @@ const AddTodoPopUp = (props) => {
     );
     dispatch(dateErrorMessage(errorDateAndTimeMessage));
   };
-  const addTodoList = {
+  const taskObj = {
     name: input,
     time: dateAndTime,
     color: dotColor,
@@ -54,11 +53,14 @@ const AddTodoPopUp = (props) => {
       dispatch(dateErrorMessage("Date"));
     } else {
       setShowPopUp(false);
-      dispatch(addTask(addTodoList));
+      dispatch(addTask(taskObj));
     }
   };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -80,19 +82,17 @@ const AddTodoPopUp = (props) => {
               dispatch(showEmptyInputError(false));
             }}
           />
-          {showInputError ? <div className="error">Input is Empty</div> : <></>}
-          {errorDateAndTimeMessage ? (
+          {showInputError && <div className="error">Input is Empty</div>}
+          {errorDateAndTimeMessage && (
             <div className="error">
               Your picked wrong {errorDateAndTimeMessage}
             </div>
-          ) : (
-            <></>
           )}
           <input
             className="daytime-input"
             type="datetime-local"
             onChange={updateTime}
-          ></input>
+          />
           <div className="buttons">
             <button
               onClick={() => {

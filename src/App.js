@@ -1,7 +1,7 @@
+import { useState } from "react";
 import Header from "./components/Header/header";
 import AddTodoPopUp from "./components/AddTodoPopUp/addTodoPopUp";
 import TodoList from "./components/TodoList/todoList";
-import { useState } from "react";
 function App() {
   const [showPopUp, setShowPopUp] = useState(false);
   return (

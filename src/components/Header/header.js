@@ -1,8 +1,7 @@
-import "./header.css";
 import * as Icon from "react-bootstrap-icons";
+import "./header.css";
 
-const Header = (props) => {
-  const { setShowPopUp } = props;
+const Header = ({ setShowPopUp }) => {
   return (
     <div className="header">
       <div>Today</div>

@@ -128,7 +128,7 @@ button {
 @media (max-width: 376px) {
   .input-container {
     width: 87%;
-    top: 102px;
+    top: 6.375rem;
     left: 25px;
   }
 
@@ -143,23 +143,23 @@ button {
   }
 
   .task-input {
-    height: 148px;
-    width: 298px;
+    height: 9.25rem;
+    width: 18.625rem;
     border-color: #f3f5f8;
     margin-left: 15px;
     resize: none;
   }
 
   .task-input-red {
-    height: 148px;
-    width: 298px;
+    height: 9.25rem;
+    width: 18.625rem;
     border-color: red;
     margin-left: 15px;
     resize: none;
   }
 
   .daytime-input {
-    width: 298px;
+    width: 18.625rem;
     margin-top: 3%;
     margin-left: 15px;
   }

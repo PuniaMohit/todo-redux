@@ -1,24 +1,26 @@
-import "./todoList.css";
-import * as Icon from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
+import * as Icon from "react-bootstrap-icons";
+import "./todoList.css";
 import { listDotColorChange } from "../../redux/todoList/actions/colorUpdateList";
 
 const TodoList = () => {
   const dispatch = useDispatch();
   const list = useSelector((state) => state.list.list);
+  const dotColor = (element) => {
+    if (new Date().getDate() === new Date(element.time).getDate()) {
+      return element.checked
+        ? element.color === "green"
+          ? "yellow"
+          : "green"
+        : "yellow";
+    } else {
+      return "green";
+    }
+  };
   return (
     <div className="todolist-main-container">
       {list.map((element, index) => {
-        let color;
-        if (new Date().getDate() === new Date(element.time).getDate()) {
-          color = element.checked
-            ? element.color === "green"
-              ? "yellow"
-              : "green"
-            : "yellow";
-        } else {
-          color = "green";
-        }
+        let color = dotColor(element);
         return (
           <div className="list" key={index}>
             <label className="input-box">
@@ -27,27 +29,25 @@ const TodoList = () => {
                 type="checkbox"
                 name={index}
                 onChange={(event) => {
-                  const { checked } = event.target;
-                  let newObjTask = {
-                    name: element.name,
-                    time: element.time,
-                    color: color,
-                    checked: checked,
-                  };
-                  dispatch(listDotColorChange(newObjTask));
+                  dispatch(
+                    listDotColorChange({
+                      name: element.name,
+                      time: element.time,
+                      color: color,
+                      checked: event.target,
+                    })
+                  );
                 }}
               />
               <div className="task-content">
                 <div className="checkbox-content">
                   <p className="task-name">{element.name}</p>
                 </div>
-                {element.time ? (
+                {element.time && (
                   <div className="time">
                     <Icon.Alarm className="time-icon" />
                     <div className="list-time">{element.time}</div>
                   </div>
-                ) : (
-                  <></>
                 )}
               </div>
               <div className="dotOuterBox">
